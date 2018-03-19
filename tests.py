@@ -5,7 +5,7 @@ import os
 import pytest
 
 from builtin_types import UnsignedInt, Boolean, String, MapEntrySpec, \
-    Map, List, Optional, SignedInt
+    Map, List, Optional, SignedInt, BuiltinType
 
 # This is a stupendously big number.
 from user_types import compute_type
@@ -447,3 +447,15 @@ def test_separately_created_items():
         Person(name="Bede Kelly", age=20),
         Person(name="Paul Skeggs", age=99)
     ], name="TT-on-Sea").to_bytes())
+
+
+def test_creating_abstract_class():
+    """
+    It shouldn't be possible to use an instance of the abstract
+    base class BuiltinType.
+    """
+    with pytest.raises(NotImplementedError):
+        BuiltinType().to_bytes(4)
+
+    with pytest.raises(NotImplementedError):
+        BuiltinType().read(b"")
